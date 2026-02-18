@@ -5,7 +5,7 @@ const rl = readline.createInterface({
     output: process.stdout,
 });
 
-
+const fs = require("fs");
 
 let opcao;
 
@@ -13,6 +13,11 @@ let opcao;
 // ESTADO
 // =====================
 let produtos = [];
+
+if (fs.existsSync("produtos.json")) {
+    const dados = fs.readFileSync("produtos.json", "utf-8");
+    produtos = JSON.parse(dados);
+}
 
 // =====================
 // PROGRAMA
@@ -60,6 +65,11 @@ function menu() {
 // =====================
 // AÇÕES (IO)
 // =====================
+
+function salvarProdutos() {
+    fs.writeFileSync("produtos.json", JSON.stringify(produtos, null, 2));
+}
+
 function cadastrarProduto() {
     rl.question("   Digite o nome do produto: ", (resposta_nome) => {
 
@@ -77,6 +87,8 @@ function cadastrarProduto() {
                 nome: resposta_nome,
                 preco: preco
             });
+
+            salvarProdutos();
 
             console.log("   Produto cadastrado com sucesso!");
             menu();
@@ -121,6 +133,7 @@ function removerProduto() {
                     else if (resposta_num === 1) {
                         produtos.splice((numero - 1), 1);
                         console.log("   Produto Excluído.");
+                        salvarProdutos();
                         menu();
                     }
                     else {
@@ -165,7 +178,7 @@ function soma_preco_produtos() {
     for (let i = 0; i < produtos.length; i++) {
         soma = soma + produtos[i].preco;
     }
-    return somatoFixed(2);
+    return soma.toFixed(2);
 };
 
 function media_produtos() {
