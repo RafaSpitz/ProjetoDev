@@ -6,5 +6,9 @@
   {
     "nome": "Cadeira de plástico",
     "preco": 25
+  },
+  {
+    "nome": "Carrinho de Brinquedo",
+    "preco": 12
   }
 ]
